@@ -1,0 +1,562 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+ 
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\everymath{\displaystyle}
+
+\begin{document}
+
+\raggedright
+
+\doublespacing
+
+
+\title{ {\Huge{Data Mining 2015 - Homework 1}} }
+\author {Ludovico Fabbri 1197400}
+\maketitle
+
+
+\section{Problem 1}
+A family has two kids, each being a boy or a girl with probability 1/2 and born in a random day of the week.
+\begin{enumerate}
+    \item Define a sample space sufficient to answer the second question.
+    \item If we know that one kid is a girl, what is the probablity that the other kid is a girl?
+    \item If we know that one kid is a girl born on Sunday, what is the probablity that the other kid is a girl?
+\end{enumerate}
+
+
+ 
+\subsection{}
+Firstly i define two simple events:
+\begin{itemize}
+	\item G: "the kid is a girl"
+	\item B: "the kid is a boy"
+\end{itemize}
+
+Next we can define the outcomes of the sample space $\Omega$:
+
+\begin{displaymath}
+\Omega = \left\{ BB, BG, GB, GG \right\}
+\end{displaymath}
+
+The outcomes of the sample space are equiprobable, so P(BB) = P(BG) = P(GB) = P(GG) = $\frac {1}{4}$.  
+
+Because we are interested in the sample space related to the second question, where we assume that at least one kid is a girl, the probability of the outcome (B, B) is equal to zero. 
+Thus the sample space becomes:
+
+\begin{displaymath}
+\Omega = \left\{ BG, GB, GG \right\}
+\end{displaymath}
+
+The outcomes of the sample space are equiprobable, so P(BG) = P(GB) = P(GG) = $\frac {1}{3}$
+
+
+\subsection{}
+Accordingly to the sample space defined in the previous section, the requested probability is equal to the probability of the outcome (G, G). Since the outcomes 
+BG, GB, GG are equiprobable, the probability of the the outcome GG is $P(GG) = \frac{1}{3}$.
+
+More formally we can derive the same result starting from the theorem of the conditional probability. Given two generic events A and B, the following expressions are respectively the probability of A to occur given that B occurs and the probability of B to occur given that A occurs:
+
+\begin{equation} \label{eq:condprob1}
+P(A | B) = \frac {P(A \cap B)} {P(B)}
+\end{equation}
+\begin{equation} \label{eq:condprob2}
+P(B | A) = \frac {P(A \cap B)} {P(A)}
+\end{equation}
+
+From the \eqref{eq:condprob2} we can derive:
+
+\begin{equation} \label{eq:condProb3}
+P(A \cap B) = P(B | A) \cdot P(A)
+\end{equation}
+
+And substituting in the \eqref{eq:condprob1} we find the Bayes theorem:
+\begin{equation} \label{eq:bayes}
+P(A | B) = \frac {P(B | A) \cdot P(A)} {P(B)}
+\end{equation}
+
+
+We can also define the following event: 
+\begin{itemize}
+	% \item BB : both kids are boys. $P(BB) = \frac {1}{4} $, this is a priori probability
+	% \item GG : both kids are girls. $P(GG) = \frac {1}{4} $, this is a priori probability
+	\item G$_{l}$ : at least one kid is a girl. $P(G_{l}) = P(B, G) + P(G, B) + P(G, G) = \frac {3} {4}$, this is a priori probability
+\end{itemize}
+
+Now using the \eqref{eq:bayes} we can find the probability that given that one of the kids is a girl, the other one is also a girl:
+
+\begin{equation} \label{eq:bayes2}
+P(GG | G_{l}) = \frac {P(G_{l} | GG) \cdot P(GG)} {P(G_{l})} = \frac {1 \cdot \frac{1}{4}} {\frac{3}{4}} = \frac {1} {3}
+\end{equation}
+
+where $P(G_{l} | GG)$ is the probability that at least one kid is a girl given that both are girls, which is obviously 1.
+
+
+
+\subsection{}
+We can use again the \eqref{eq:bayes}:
+
+\begin{equation} \label{eq:bayes3}
+P(GG | G_{sun}) = \frac {P(G_{sun} | GG) \cdot P(GG)} {P(G_{sun})} 
+\end{equation}
+
+
+The $P(G_{sun} | GG)$ is the probability that at least one kid is a girl born in Sunday given that the kids are 2 girls, that is equal at two times the probability that one girl is born in Sunday and the other girl is born in another day plus the probability that both the girls are born in Sunday. Thus:
+
+\begin{equation} \label{eq:probGsunGG}
+P(G_{sun} | GG) = \frac {1} {7} \cdot \frac {6} {7} + \frac {1} {7} \cdot \frac {6} {7} + \frac {1} {7} \cdot \frac {1} {7} = \frac {13} {49}
+\end{equation}
+
+$P(GG)$ is the probability that both kids are girls, which is simply:
+
+\begin{equation} \label{eq:probGG}
+P(GG) = \frac {1} {4} 
+\end{equation}
+
+
+$P(G_{sun})$ is the probability that at least one kid is a girl born on Sunday, and must be calculated on the entire sample space. So we have four cases to consider: GG(two girls), GB (one girl and one boy), BG (one boy and one girl), BB (two boys). All these outcomes are equiprobable and have probability of $\frac {1} {4}$. In the case of BB the probability is $0$, there are no girls. In the case of GB and BG the probability is $\frac {1} {7}$, it's the probability for one girl to be born on Sunday. In the case of GG the probability is the probability of one girl to be born on Sunday plus the probability of the other girl to be born on Sunday minus the probability that both are born on Sunday, so is equal to $\frac {1} {7} + \frac {1} {7} - \frac {1} {7} \cdot \frac {1} {7} = \frac {13} {49}$. So we can calculate:
+
+
+\begin{equation} \label{eq:bayes4}
+P(GG | G_{sun}) = \frac {P(G_{sun} | GG) \cdot P(GG)} {P(G_{sun})}  = \frac { \frac {13} {49} \cdot \frac {1}{4} } { \frac{1}{4} ( \frac {1}{7} + \frac {1}{7} + \frac {13}{49}) } = \frac {13} {27}
+\end{equation}
+
+
+
+
+
+
+\section{Problem 2}
+You are in an airplane that falls in the jungle and you manage to survive. In the jungle there are are two tribes, the Randomukee and the Bugiardukee. The Randomukee are twice as many as the Bugiardukee. Each time you ask a question to a Randomukee he will say the truth with probability 3/4, whereas, each time you as a question to a Bugiardukee he will lie. As you try to find your way out of the jungle, you find a random person from the two tribes. You ask him the question "To get out of the jungle, I have to go left or right?"
+\begin{enumerate}
+    \item Define an appropriate probability space that can be used to answer the questions that follow.
+    \item Assume that the person gave you the answer "right". What is the probability that the answer is correct?
+    \item You ask the same person again, and he gives you the same answer. Show that the probability that the answer is correct is 1/2.
+    \item You ask a third time and you get again the same answer. What is now the probability that the answer is correct?
+    \item Finally, you ask a fourth time and you get again the answer "right". Show that the probability that the answer is correct is 27/70.
+    \item Assume that the first three times the answer was "right" but that the fourth one it was "left". Show that the probability that the correct answer is "right" is 9/10.
+\end{enumerate}
+
+\subsection{}
+
+We can define the following simple events:
+
+\begin{itemize}
+	\item R: "meet a Randomukee" - $P(R) = \frac {2} {3}$
+	\item B: "meet a Bugiardukee" - $P(B) = \frac {1} {3}$
+	\item $R_{t}$: "Randomukee says the truth" - $P(R_{t}) = \frac {3} {4}$
+	\item $B_{t}$: "Bugiardukee says the truth" - $P(B_{t}) = 0$
+	\item $R_{f}$: "Randomukee says the false" - $P(R_{f}) = \frac {1} {4}$
+	\item $B_{f}$: "Bugiardukee says the false" - $P(B_{f}) = 1$
+\end{itemize}
+
+\begin{equation} \label{eq:sampleSpace2}
+\Omega =  \left\{    \right\}
+\end{equation}
+
+
+We can use regular expressions to define a sample space for the next answers. These are all the possible outcomes:
+
+\begin{itemize}	
+	\item $ RR_{t}\left\{1,i\right\} = \left\{ RR_{t}, RR_{t}R_{t}, RR_{t}R_{t}R_{t}, RR_{t}R_{t}R_{t}R_{t} \right\} $ 	\space\space\space	   for i $\in \left\{ 1, 2, 3, 4 \right\} $
+	\item $ RR_{f}\left\{1,i\right\} = \left\{ RR_{f}, RR_{f}R_{f}, RR_{f}R_{f}R_{f}, RR_{f}R_{f}R_{f}R_{f} \right\} $ 	\space\space\space	   for i $\in \left\{ 1, 2, 3, 4 \right\} $
+	\item $ RR_{t}\left\{ 3 \right\}R_{f} = \left\{ RR_{t}R_{t}R_{t}R_{f} \right\} $
+	\item $ RR_{f}\left\{ 3 \right\}R_{t} = \left\{ RR_{f}R_{f}R_{f}R_{t} \right\} $
+	\item $ BB_{f}\left\{ 3 \right\} = \left\{ BB_{f}, BB_{f}B_{f}, BB_{f}B_{f}B_{f}, BB_{f}B_{f}B_{f} \right\} $			
+\end{itemize}
+
+If we consider a sample space with no restrictions on the possible outcomes (except for the problem data), we can compute the probability for the outcomes defined above:
+
+\begin{itemize}
+	\item $ P(RR_{t}\left\{1,i\right\}) = \frac {2}{3} \cdot \left( \frac {3}{4} \right)^{i} $ 		\space\space\space	   for i $\in \left\{ 1, 2, 3, 4 \right\} $
+	\item $ P(RR_{f}\left\{1,i\right\}) = \frac {2}{3} \cdot \left( \frac {1}{4} \right)^{i} $ 		\space\space\space	   for i $\in \left\{ 1, 2, 3, 4 \right\} $
+	\item $ P(RR_{t}\left\{ 3 \right\}R_{f}) = \frac {2}{3} \cdot \left( \frac {3}{4} \right)^{3} \cdot \frac {1}{4} $
+	\item $ P(RR_{f}\left\{ 3 \right\}R_{t}) = \frac {2}{3} \cdot \left( \frac {1}{4} \right)^{3} \cdot \frac {3}{4} $
+	\item $ P(BB_{f}\left\{ 3 \right\}) = \frac {1} {3} $
+\end{itemize}
+
+These are the probabilities in our 'reference' sample space. Clearly the sample space is dynamic and will vary depending on the new informations coming from the questions that follow. 
+In the next questions we wil use these reference probabilities to compute the probability in the dynamic (current) sample space.
+
+
+
+\subsection{}
+The possible outcomes are: $ RR_{t}, RR_{f}, BB_{f} $, so the current sample space is:
+\begin{equation} \label{eq:sampleSpace2.1}
+\Omega_{(2)} =  \left\{ RR_{t}, RR_{f}, BB_{f}   \right\}
+\end{equation}
+The probability that the answer is correct is equal to the the probability to meet a Randomukee and that he answers the truth, so it is simply equal to:
+
+\begin{equation} \label{eq:prob2.1}
+P(RR_{t}) = \frac {2} {3} \cdot \frac {3} {4} = \frac {1} {2}
+\end{equation}
+
+
+
+\subsection{}
+In this case the possible outcomes and their probabilities are respectively:
+\begin{itemize}
+	\item $RR_{t}R_{t}$ 		\space\space\space		$P(RR_{t}R_{t}) = \frac {2} {3} \cdot  \left( \frac{3} {4} \right)^{2} = \frac {3} {8}$
+	\item $RR_{f}R_{f}$		\space\space\space		$P(RR_{f}R_{f}) = \frac {2} {3} \cdot  \left( \frac{1} {4} \right)^{2} = \frac {1} {24}$
+	\item  $BB_{f}B_{f}$		\space\space\space		$P(BB_{f}B_{f}) = \frac {1} {3} \cdot 1^{2} = \frac {1} {3}$
+\end{itemize}
+
+These probabilities are related to the reference sample space where also other outcomes are possible, like the outcomes $RR_{t}R_{f}$ and $RR_{f}R_{t}$. We are interested
+to find probability of the outcome $RR_{t}R_{t}$ in the current sample space, which is:
+
+
+\begin{equation} \label{eq:sampleSpace2.2}
+\Omega_{(3)} =  \left\{ RR_{t}R_{t}, RR_{f}R_{f}, BB_{f}B_{f}   \right\}
+\end{equation}
+
+We know that the probability of the sample space must be equal to one ($P(\Omega) = 1$), so we can use a simple proportion to find the probability of the outcome $RR_{t}R_{t}$ in the current sample space:
+
+\begin{equation} \label{eq:proportion2.2}
+[ P(RR_{t}R_{t}) + P(RR_{f}R_{f}) + P(BB_{f}B_{f}) ] : 1 = P(RR_{t}R_{t}) : P_{x}(RR_{t}R_{t}) 
+\end{equation}
+
+So the wanted probability is:
+
+\begin{equation} \label{eq:proportion2.21}
+P_{x}(RR_{t}R_{t}) = \frac  { \frac {3} {8} }  { ( \frac {3} {8} + \frac {1} {24} + \frac {1} {3} ) } = \frac {1} {2}
+\end{equation}
+
+\vspace{20 mm}
+
+Alternatively we can use again the Bayes theorem. 
+We define the event SA:
+
+\begin{itemize}
+	\item SA: "the man gives the same answer". 
+\end {itemize}
+
+This event is a subset of the sample space:
+
+\begin{equation} \label{eq:sameanswer}
+SA = \left\{ {BB_{f}B_{f}, RR_{t}R_{t}, RR_{f}R_{f}} \right\}
+\end{equation}
+
+and its probability is:
+
+\begin{equation} \label{eq:sameanswerprob}
+P(SA) = P(BB_{f}B_{f}) + P(RR_{t}R_{t}) + P(RR_{f}R_{f}) = \frac {1}{3} + \frac{2}{3} \cdot \left( \frac {3}{4} \right)^2 + \frac {2}{3} \cdot \left( \frac {1}{4} \right)^{2} = \frac {3}{4}
+\end{equation} 
+
+So its probability is the sum of the probability to meet a Bugiardukee (which of course will tell two times the false) plus the probability to meet a Randomukee that answers two times the truth plus the probability to meet Randomukee which will answers two times the false.
+Now we can use the Bayes theorem to find the probability to have the correct answer (from a Randomukee of course) given that we got the same answer to the same question (which is the probability we are looking for):
+
+\begin{equation} \label{eq:bayesSameAnswer}
+P(RR_{t}R_{t} | SA) = \frac { P(SA | RR_{t}R_{t}) \cdot P(RR_{t}R_{t}) } { P(SA) } 
+\end{equation}
+
+\begin{equation} \label{eq:bayesSameAnswer2}
+P(RR_{t}R_{t} | SA) =  \frac { 1 \cdot \frac {2}{3} \cdot \left( \frac{3}{4} \right)^{2} } { \frac {1}{3} + \frac{2}{3} \cdot \left( \frac {3}{4} \right)^2 + \frac {2}{3} \cdot \left( \frac {1}{4} \right)^{2} } 
+	= \frac { \frac {2}{3} \cdot \left ( \frac {3}{4} \right )^{2} } {\frac {3}{4}} =		\frac {1} {2}
+\end{equation}
+
+which is the same probability we found earlier.
+
+
+
+\subsection{}
+Again, we can use both the methods in 2.3. Using Bayes theorem we have:
+
+\begin{equation} \label{eq:bayesSameAnswer4}
+P(RR_{t}R_{t}R_{t} | SA) = \frac { P(SA | RR_{t}R_{t}R_{t}) \cdot P(RR_{t}R_{t}R_{t}) } { P(SA) } 
+\end{equation}
+
+where in this case the SA event and its probability P(SA) are:
+
+\begin{equation} \label{eq:sameanswer4}
+SA = \left\{ {BB_{f}B_{f}B_{f}, RR_{t}R_{t}R_{t}, RR_{f}R_{f}R_{f}} \right\}
+\end{equation}
+
+\begin{equation} \label{eq:sameanswerprob4}
+\begin{split}
+P(SA) = P(BB_{f}B_{f}B_{f}) + P(RR_{t}R_{t}R_{t}) + P(RR_{f}R_{f}R_{f}) = \\
+= \frac {1}{3} + \frac{2}{3} \cdot \left( \frac {3}{4} \right)^{3} + \frac {2}{3} \cdot \left( \frac {1}{4} \right)^{3} = \frac {5}{8} \\
+\end{split}
+\end{equation} 
+
+So we have:
+
+\begin{equation} \label{eq:bayesSameAnswer4.2}
+P(RR_{t}R_{t}R_{t} | SA) = \frac { P(SA | RR_{t}R_{t}R_{t}) \cdot P(RR_{t}R_{t}R_{t}) } { P(SA) } 
+\end{equation}
+
+\begin{equation} \label{eq:bayesSameAnswer4.3}
+P(RR_{t}R_{t}R_{t} | SA) =  \frac { 1 \cdot \frac {2}{3} \cdot \left( \frac{3}{4} \right)^{3} } { \frac {1}{3} + \frac{2}{3} \cdot \left( \frac {3}{4} \right)^{3} + \frac {2}{3} \cdot \left( \frac {1}{4} \right)^{3} } 
+	= \frac { \frac {2}{3} \cdot \left ( \frac {3}{4} \right )^{3} } {\frac {5}{8}} =		\frac {9} {20}
+\end{equation}
+
+
+\vspace{20 mm}
+
+Alternativally we can find the the same probability using  a proportion like we did at the beginning of 2.3.
+First we have to define the probability of the possible outcomes:
+
+\begin{itemize}
+	\item $RR_{t}R_{t}R_{t}$ --- $P(RR_{t}R_{t}R_{t}) = \frac {2} {3} \cdot  \left( \frac{3} {4} \right)^{3} = \frac {9} {32}$
+	\item $RR_{f}R_{f}R_{f}$ --- $P(RR_{f}R_{f}R_{f}) = \frac {2} {3} \cdot  \left( \frac{1} {4} \right)^{3} = \frac {1} {96}$
+	\item  $BB_{f}B_{f}B_{f}$ --- $P(BB_{f}B_{f}B_{f}) = \frac {1} {3} \cdot 1^{3} = \frac {1} {3}$
+\end{itemize}
+
+The current sample space is:
+
+\begin{equation} \label{eq:sampleSpace2.3}
+\Omega_{(4)} =  \left\{ RR_{t}R_{t}R_{t}, RR_{f}R_{f}R_{f}, BB_{f}B_{f}B_{f}   \right\}
+\end{equation}
+
+We can use again the \eqref{eq:proportion2.2} to calculate the requested probability:
+
+\begin{equation} \label{eq:proportion2.2}
+[ P(RR_{t}R_{t}R_{t}) + P(RR_{f}R_{f}R_{f}) + P(BB_{f}B_{f}B_{f}) ] : 1 = P(RR_{t}R_{t}R_{t}) : P_{x}(RR_{t}R_{t}R_{t}) 
+\end{equation}
+
+\begin{equation} \label{eq:proportion2.23}
+P_{x}(RR_{t}R_{t}R_{t}R_{t}) = \frac  { \frac {9} {32} }  { ( \frac {9} {32} + \frac {1} {96} + \frac {1} {3} ) } = \frac {9} {20}
+\end{equation}
+
+which is exatcly the same probability calculated with the Bayes theorem.
+
+
+\subsection{}
+For brevity i'll stick only with the proportion method, assuming that with the Bayes theorem we'll get exactly the same result. The possible outcomes and their proababilities are respectively:
+
+\begin{itemize}
+	\item $RR_{t}R_{t}R_{t}R_{t}$, \space\space\space $P(RR_{t}R_{t}R_{t}R_{t}) = \frac {2} {3} \cdot  \left( \frac{3} {4} \right)^{4} = \frac {27} {128}$
+	\item $RR_{f}R_{f}R_{f}R_{f}$, \space\space\space$P(RR_{f}R_{f}R_{f}R_{f}) = \frac {2} {3} \cdot  \left( \frac{1} {4} \right)^{4} = \frac {1} {384}$
+	\item  $BB_{f}B_{f}B_{f}B_{f}$, \space\space\space$P(BB_{f}B_{f}B_{f}B_{f}) = \frac {1} {3} \cdot 1^{4} = \frac {1} {3}$
+\end{itemize}
+
+The current sample space is:
+
+\begin{equation} \label{eq:sampleSpace2.4}
+\Omega_{(5)} =  \left\{ RR_{t}R_{t}R_{t}R_{t}, RR_{f}R_{f}R_{f}R_{f}, BB_{f}B_{f}B_{f}B_{f}  \right\}
+\end{equation}
+
+We can use again the \eqref{eq:proportion2.2} to calculate the requested probability:
+
+\begin{equation} \label{eq:proportion2.24}
+P_{x}(RR_{t}R_{t}R_{t}R_{t}) = \frac  { \frac {27} {128} }  { ( \frac {27} {128} + \frac {1} {384} + \frac {1} {3} ) } = \frac {27} {70}
+\end{equation}
+
+
+
+\subsection{}
+In this case the possible outcomes are $RR_{t}R_{t}R_{t}R_{f}$ and $RR_{f}R_{f}R_{f}R_{t}$, since we know that the Bugiardukee answer always the false, 
+so he can't change answer to the same question. The probabilities of these two outcomes in the primary sample space are:
+
+
+\begin{itemize}
+	\item $P(RR_{t}R_{t}R_{t}R_{f}) = \frac {2} {3} \cdot  \left( \frac{3} {4} \right)^{3} \cdot \frac {1} {4} = \frac {9} {128}$
+	\item $P(RR_{f}R_{f}R_{f}R_{t}) = \frac {2} {3} \cdot  \left( \frac{1} {4} \right)^{3} \cdot \frac {3} {4} = \frac {1} {128}$	
+\end{itemize}
+
+The current sample space is:
+\begin{equation} \label{eq:sampleSpace2.5}
+\Omega_{(6)} =  \left\{ RR_{t}R_{t}R_{t}R_{f}, RR_{f}R_{f}R_{f}R_{t}  \right\}
+\end{equation}
+
+We are interested to find the probability of the outcome $RR_{t}R_{t}R_{t}R_{f}$ in the current sample space. Because $P(\Omega) = 1$, we can write a simple proportion:
+
+\begin{equation} \label{eq:proportion2.5}
+[P(RR_{t}R_{t}R_{t}R_{f}) + P(RR_{f}R_{f}R_{f}R_{t}) ] : 1 = P(RR_{t}R_{t}R_{t}R_{f}) : P_{x}(RR_{t}R_{t}R_{t}R_{f})
+\end{equation} 
+
+where $P_{x}(RR_{t}R_{t}R_{t}R_{f})$ is the probability we want to calculate. Thus:
+
+\begin{equation} \label{eq:proportion2.52}
+P_{x}(RR_{t}R_{t}R_{t}R_{f}) = \frac {\frac {9} {128} } {\frac {9} {128} + \frac {1} {128} } = \frac {9} {10}
+\end{equation} 
+
+
+
+
+\section{Problem 3}
+Assume that a monkey sits in front of a keyboard and hits randomly the 26 letters, each with the same probability. Assume that it types 100,000,000,000 letters. Let X be the number of times that the word "mining" appears? What is the expectation of X?
+
+\subsection{}
+So we have the random variable X = "number of times that the word 'mining' appears". Let's also define this Bernoulli indicator:
+\begin{equation} \label{eq:bernoulli}
+X_{i} = 
+\begin{cases}
+	1 & \text{ if the word 'mining' begin at character i of the sequence} \\
+	0 & \text{ otherwise } \\
+\end{cases}\end{equation}
+
+where $i \in \left\{1, 2, 3, ..., 100*10^9-6+1 \right\}$ ( 6 is the number of characters of the word 'mining').
+
+So we can write the random variable X in function of the $X_{i}$ indicators:
+\begin{equation} \label{eq:bernoulli2}
+X = \sum_{i=1}^{100*10^9 -5} X_{i}
+\end{equation}
+
+We want to calculate the expectation of X that is:
+
+\begin{equation} \label{eq:expectation1}
+E[X] = E \left[ \sum_{i=1}^{100*10^9 -5} X_{i} \right]
+\end{equation}
+
+From the linearity of the expectation we can take out the $\sum$ operator:
+
+\begin{equation} \label{eq:expectation2}
+E[X] = \sum_{i=1}^{100*10^9 -5}E \left[  X_{i} \right]
+\end{equation}
+
+We know that the number of letters of the keyboard are 26, and each letter is hit randomly, so the expactation of $X_{i}$ is:
+
+\begin{equation} \label{eq:expectation3}
+E[X_{i}] = 1 \cdot \left( \frac  {1}{26} \right)^{6} + 0 \cdot \left( \frac{25}{26} \right)^{6} = \left( \frac  {1}{26} \right)^{6}
+\end{equation}
+
+Using this expression in the \eqref{eq:expectation2} we got in final:
+
+\begin{equation} \label{eq:expectation4}
+E[X] = \sum_{i=1}^{100*10^9 -5} \left( \frac  {1}{26} \right)^{6} 	\approx 323.7
+\end{equation}
+
+
+
+
+
+\section{Problem 4}
+Quite often you can analyze your data just by using simple unix tools. Some useful commands are the grep, sort, uniq, cut, sed, awk, join, head, tail, wget, curl. You can find more information using the man command or by checking the web. Shell scripting can help you even more.
+As a simple exercise do a simple analysis of the reviews in http://aris.me/contents/teaching/data-mining-2015/protected/ratebeerProcessed.txt. After you download and unzip the file, use some of the commands above to find the 10 beers with the highest number of reviews. (Hint: You can do it with a single command line, by chaining commands through pipes!)
+
+
+\subsection{}
+Assuming that we are in the same path of the ratebeerProcessed.txt file on the console, this is a command line to display the first 10 beers with the highest number of reviews:
+
+\begin{lstlisting} 
+$ sed 's/[0-9]//g' ratebeerProcessed.txt | uniq -c | sort -n -r | head
+\end{lstlisting}
+
+The sed command is used together with the s command to replace all the beer scores number with an empty string, next with uniq -c command we can found the number of occurrences for each beer review (uniq appends that number at the begin of each line), next we sort in reverse by numeric-sort and display only the first ten results by the head command.
+
+Alternatively we can use curl command to download and process data directly from http: 
+
+\begin{lstlisting} 
+$ curl -u datamining2015:sapienzaroma "http://aris.me/contents/teaching/data-mining-2015/protected/ratebeerProcessed.txt" | sed 's/[0-9]//g' beersReview.txt | uniq -c | sort -n -r | head
+\end{lstlisting}
+
+In both cases the result is the following: 
+
+\begin{lstlisting} 
+   3696 Guinness Draught	
+   3230 Dogfish Head  Minute Imperial IPA	
+   3126 Budweiser	
+   3119 Sierra Nevada Pale Ale &#;Bottle&#;	
+   3110 Samuel Adams Boston Lager	
+   3056 Chimay Bleue &#;Blue&#; / Grande R?serve	
+   2904 North Coast Old Rasputin Russian Imperial Stout	
+   2872 Stone Arrogant Bastard Ale	
+   2813 Orval	
+   2812 Newcastle Brown Ale	
+\end{lstlisting}
+
+\textbf{note}: ratebeerProcessed.txt file is not included
+
+
+\section{Problem 5}
+We will now go one step further and start practicing with Python. Write a Python program to find the top-10 beers with the highest average overall score among the beers that have had at least 100 reviews. (You may need to preprocess the file first.)
+
+
+\subsection{}
+\begin{itemize}
+	\item source code: problem5.py
+	\item input file: ratebeerProcessed.txt
+	\item output file: problem5output.tsv
+	\item packages used: re (for regular expressions)
+\end{itemize}
+
+
+The source code is in problem5.py file. Packages used are: re for regular expressions. The output is written in a tsv file where each line is formatted this way: 
+\begin{lstlisting} 
+beerName "\t" numberReviews "\t" averageScore "\n"
+\end{lstlisting}
+Basically the algorithm uses regular expression to find indexes of the score number in each review (tab separated in the line), use these indexes to get the substring review, and update variables for the current number of reviews and current score. I've defined a class for a beer entity (BeerEntity) with 3 attributes: name, numReviews, avgScore (the name, the number of reviews and the average score respectively). At runtime it inserts in a list (resultList) each BeerEntity with number of reviews higher than 100. At the end we sort this list using a lambda operator to sort against the avgScore attribute. Then an helper method writes the result list in a .tsv file and prints the result on the console.
+
+\begin{lstlisting} 
+Westvleteren 12
+Three Floyds Oak Aged Dark Lord Russian Imperial Stout
+Bells Bourbon Barrel Double Cream/Expedition Stout
+Goose Island Rare Bourbon County Stout
+Lost Abbey Yellow Bus 
+De Dolle Stille Nacht Reserva 2000
+Russian River Pliny the Younger
+AleSmith Barrel Aged Speedway Stout
+Cigar City Zhukov?s Final Push
+AleSmith Speedway Stout
+\end{lstlisting}
+
+\textbf{note1}: ratebeerProcessed.txt file must be in the same directory of problem5.py file \\
+\textbf{note2}: ratebeerProcessed.txt file is not included
+
+
+\section{Problem 6}
+[...]Write a program that will download from http://www.kijiji.it and parse all the job positions in Lazio about Informatica/Grafica/Web. Download regular and top announcements, but not sponsored ads. Save in a tab-separated value (TSV) file, for every job (one line per job), the title, short description (from the job summary page), the location, the publication date of the job announcement, and the URL link to its web page.
+
+\subsection{}
+\begin{itemize}
+	\item source code: problem6.py
+	\item output file: problem6output.tsv
+	\item packages used: 
+		\begin{itemize}
+			\item re
+			\item requests
+			\item time
+			\item BeatifulSoup
+		\end{itemize}
+\end{itemize}
+
+I used requests package to download html data from the website and BeatifulSoup to parse it and move in the parse tree using built-in functions. Before starting to download/parse/write the data i've used an helper method to find the number of pages (paging) of the requested uri in the website, because it can vary depending on the number of the ads posted online. With that information i build an uri in each iteration of the algorithm in the form: 
+\begin{lstlisting} 
+http://www.kijiji.it/offerte-di-lavoro/offerta/annunci-lazio/informatica-e-web/?=p
+\end{lstlisting}
+where p is the number of the page. In each iteration of the algorithm we use a library function of beatifulsoup to find all the ads of the page (excluding sponsorized ones). For each ads we move in the parse tree to find also the uri for that ads and use again requests and beatifulsoup to get the long description of the ads. All the requested parameters are encoded in UTF-8 and wrote in .tsv file, the format of each line is:
+\begin{lstlisting} 
+title + "\t" shortDescription "\t" locale + "\t" timestamp "\t" + adsLink "\t" longDescription "\n"
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+\end{document}

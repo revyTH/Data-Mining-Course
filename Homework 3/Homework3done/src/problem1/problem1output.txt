@@ -1,0 +1,87 @@
+/home/ludovicofabbri/anaconda/bin/python2.7 /home/ludovicofabbri/PycharmProjects/Homework3.2/program.py
+SIMPLE APRIORI ON retail.dat
+START
+Round k = 1 Found 185 frequent itemsets
+Round k = 2 Found 191 frequent itemsets
+Round k = 3 Found 79 frequent itemsets
+Round k = 4 Found 13 frequent itemsets
+Round k = 5 Found 0 frequent itemsets
+Found 468 frequent itemsets
+TIME END: 2.12692284584
+
+RANDOM APRIORI ON retail.dat, threshold = t * p = 50
+START
+Round k = 1 Found 194 frequent itemsets
+Round k = 2 Found 192 frequent itemsets
+Round k = 3 Found 87 frequent itemsets
+Round k = 4 Found 16 frequent itemsets
+Round k = 5 Found 0 frequent itemsets
+Found 489 frequent itemsets with false positives
+Found 429 frequent itemsets without false positives
+False positives removed: 60
+TIME END: 7.63972496986
+
+RANDOM APRIORI ON retail.dat, threshold = t * p * 0.9 = 45
+START
+Round k = 1 Found 226 frequent itemsets
+Round k = 2 Found 224 frequent itemsets
+Round k = 3 Found 94 frequent itemsets
+Round k = 4 Found 17 frequent itemsets
+Round k = 5 Found 1 frequent itemsets
+Round k = 6 Found 0 frequent itemsets
+Found 562 frequent itemsets with false positives
+Found 453 frequent itemsets without false positives
+False positives removed: 109
+TIME END: 8.7128610611
+
+SIMPLE APRIORI ON webdocs.dat
+START
+Round k = 1 Found 22 frequent itemsets
+Round k = 2 Found 65 frequent itemsets
+Round k = 3 Found 64 frequent itemsets
+Round k = 4 Found 29 frequent itemsets
+Round k = 5 Found 6 frequent itemsets
+Round k = 6 Found 0 frequent itemsets
+Found 186 frequent itemsets
+TIME END: 1182.52232099
+
+RANDOM APRIORI ON webdocs.dat, threshold = t * p = 50
+START
+Round k = 1 Found 24 frequent itemsets
+Round k = 2 Found 77 frequent itemsets
+Round k = 3 Found 108 frequent itemsets
+Round k = 4 Found 75 frequent itemsets
+Round k = 5 Found 23 frequent itemsets
+Round k = 6 Found 2 frequent itemsets
+Round k = 7 Found 0 frequent itemsets
+Found 309 frequent itemsets with false positives
+Found 183 frequent itemsets without false positives
+False positives removed: 126
+TIME END: 185.007380009
+
+RANDOM APRIORI ON webdocs.dat, threshold = t * p * 0.9 = 45
+START
+Round k = 1 Found 35 frequent itemsets
+Round k = 2 Found 135 frequent itemsets
+Round k = 3 Found 203 frequent itemsets
+Round k = 4 Found 157 frequent itemsets
+Round k = 5 Found 64 frequent itemsets
+Round k = 6 Found 11 frequent itemsets
+Round k = 7 Found 0 frequent itemsets
+Found 605 frequent itemsets with false positives
+Found 186 frequent itemsets without false positives
+False positives removed: 419
+TIME END: 329.374064922
+
+*** Validating.. ***
+randomOutputRetail50 is subset of simpleOutputRetail: True
+False negatives found: 39
+randomOutputRetail45 is subset of simpleOutputRetail: True
+False negatives found: 15
+
+randomOutputWebdocs50 is subset of simpleOutputWebdocs: True
+False negatives found: 3
+randomOutputWebdocs45 is subset of simpleOutputWebdocs: True
+False negatives found: 0
+
+Process finished with exit code 0
